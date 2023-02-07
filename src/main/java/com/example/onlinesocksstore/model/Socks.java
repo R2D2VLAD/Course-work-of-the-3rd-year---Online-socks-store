@@ -12,7 +12,7 @@ public class Socks {
     public Socks(Color color, Size size, int cotton, int quantity) {
         this.color = color;
         this.size = size;
-        if (cotton > 0 && cotton < 100) {
+        if (cotton > 0 && cotton <= 100) {
             this.cotton = cotton;
         } else {
             throw new RuntimeException("Неверно введённые данные, введите данные в диапазоне от 0 до 100!");

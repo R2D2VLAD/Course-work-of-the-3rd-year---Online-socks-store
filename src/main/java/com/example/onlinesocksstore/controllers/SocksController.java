@@ -77,8 +77,8 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Socks> vacationSocks(@PathVariable long id, @RequestBody Socks socks) {
-        Socks socks1 = socksService.vacationSocks(id, socks);
+    public ResponseEntity<Socks> releaseSocks(@PathVariable long id, @RequestBody Socks socks) {
+        Socks socks1 = socksService.releaseSocks(id, socks);
         if (socks1 == null) {
             return ResponseEntity.notFound().build();
         }

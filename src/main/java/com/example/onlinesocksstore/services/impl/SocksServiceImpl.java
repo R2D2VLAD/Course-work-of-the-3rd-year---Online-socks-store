@@ -20,9 +20,9 @@ public class SocksServiceImpl implements SocksService {
     }
 
     @Override
-    public Socks vacationSocks(long id, Socks socks) {
+    public Socks releaseSocks(long id, Socks socks) {
         if (socksMap.containsKey(id)) {
-            socksMap.remove(id, socks);
+            socksMap.put(id, socks);
             return socks;
         }
         return null;

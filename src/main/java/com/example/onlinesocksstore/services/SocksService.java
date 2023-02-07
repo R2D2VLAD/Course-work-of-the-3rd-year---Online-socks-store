@@ -7,7 +7,7 @@ import java.util.Collection;
 public interface SocksService {
     long addSocks(Socks socks);
 
-    Socks vacationSocks(long id, Socks socks);
+    Socks releaseSocks(long id, Socks socks);
 
     boolean deleteSocks(long id, Socks socks);
 
