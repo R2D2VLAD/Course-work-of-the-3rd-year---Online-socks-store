@@ -2,7 +2,7 @@ package com.example.onlinesocksstore.controllers;
 
 import com.example.onlinesocksstore.model.Color;
 import com.example.onlinesocksstore.model.Size;
-import com.example.onlinesocksstore.model.Socks;
+import com.example.onlinesocksstore.model.SocksTWO;
 import com.example.onlinesocksstore.services.impl.SocksServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -47,7 +47,7 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> addSocks(@RequestBody Socks socks) {
+    public ResponseEntity<Void> addSocks(@RequestBody SocksTWO socks) {
         socksService.addSocks(socks);
         return ResponseEntity.ok().build();
     }
@@ -77,7 +77,7 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> releaseSocks(@RequestBody Socks socks) {
+    public ResponseEntity<Void> releaseSocks(@RequestBody SocksTWO socks) {
         socksService.releaseSocks(socks);
         return ResponseEntity.ok().build();
     }
@@ -106,7 +106,7 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> deleteSocks(@RequestBody Socks socks) {
+    public ResponseEntity<Void> deleteSocks(@RequestBody SocksTWO socks) {
         socksService.deleteSocks(socks);
             return ResponseEntity.ok().build();
     }

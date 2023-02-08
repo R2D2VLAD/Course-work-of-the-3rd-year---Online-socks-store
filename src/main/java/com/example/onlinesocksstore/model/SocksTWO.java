@@ -3,12 +3,12 @@ package com.example.onlinesocksstore.model;
 import lombok.Data;
 
 @Data
-public class Socks {
+public class SocksTWO {
     private Color color;
     private Size size;
     private int cotton;
     private int quantity;
-    public Socks(Color color, Size size, int cotton, int quantity) {
+    public SocksTWO(Color color, Size size, int cotton, int quantity) {
         this.color = color;
         this.size = size;
         if (cotton > 0 && cotton <= 100) {
