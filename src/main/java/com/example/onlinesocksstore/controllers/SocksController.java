@@ -1,5 +1,7 @@
 package com.example.onlinesocksstore.controllers;
 
+import com.example.onlinesocksstore.model.Color;
+import com.example.onlinesocksstore.model.Size;
 import com.example.onlinesocksstore.model.Socks;
 import com.example.onlinesocksstore.services.impl.SocksServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,8 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/socks")
@@ -23,7 +23,7 @@ public class SocksController {
         this.socksService = socksService;
     }
 
-    @PostMapping
+    @PostMapping("/POST")
     @Operation(
             summary = "Endpoint для добаления носков на склад")
     @ApiResponses(value = {
@@ -47,12 +47,12 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Long> addSocks(@RequestBody Socks socks) {
-        long id = socksService.addSocks(socks);
-        return ResponseEntity.ok(id);
+    public ResponseEntity<Void> addSocks(@RequestBody Socks socks) {
+        socksService.addSocks(socks);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/PUT")
     @Operation(
             summary = "Endpoint для отпуска носков на склад")
     @ApiResponses(value = {
@@ -77,15 +77,12 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Socks> releaseSocks(@PathVariable long id, @RequestBody Socks socks) {
-        Socks socks1 = socksService.releaseSocks(id, socks);
-        if (socks1 == null) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> releaseSocks(@RequestBody Socks socks) {
+        socksService.releaseSocks(socks);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/DELETE")
     @Operation(
             summary = "Endpoint для списания испорченных носков")
     @ApiResponses(value = {
@@ -109,14 +106,12 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> deleteSocks(@PathVariable long id, @RequestBody Socks socks) {
-        if (socksService.deleteSocks(id, socks)) {
+    public ResponseEntity<Void> deleteSocks(@RequestBody Socks socks) {
+        socksService.deleteSocks(socks);
             return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
     }
 
-    @GetMapping
+    @GetMapping("/GET")
     @Operation(
             summary = "Endpoint для информирования о оставшемся товаре на складе")
     @ApiResponses(value = {
@@ -140,8 +135,11 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Collection<Socks>> getAllSocks() {
-        Collection<Socks> socks = socksService.getAllSocks();
-        return ResponseEntity.ok(socks);
+    public ResponseEntity<Long> getAllSocks(@RequestBody Color color,
+                                            @RequestBody Size size,
+                                            @RequestBody Integer cottonMin,
+                                            @RequestBody Integer cottonMax) {
+        socksService.getAllSocks(color, size, cottonMin, cottonMax);
+        return ResponseEntity.ok().build();
     }
 }

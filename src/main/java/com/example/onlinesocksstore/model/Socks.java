@@ -8,7 +8,6 @@ public class Socks {
     private Size size;
     private int cotton;
     private int quantity;
-
     public Socks(Color color, Size size, int cotton, int quantity) {
         this.color = color;
         this.size = size;
@@ -20,7 +19,7 @@ public class Socks {
         if (quantity > 0) {
             this.quantity = quantity;
         } else {
-            throw new RuntimeException("Неверно введённые данные, проверьте еще раз!");
+            throw new RuntimeException("Неверно введённые данные, введите данные больше 0");
         }
     }
 }
