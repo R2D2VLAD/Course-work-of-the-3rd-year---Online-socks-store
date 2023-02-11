@@ -1,6 +1,6 @@
 package com.example.onlinesocksstore.model;
 
-public enum Size {
+public enum InternationalSockSize {
     S,
     M,
     L,

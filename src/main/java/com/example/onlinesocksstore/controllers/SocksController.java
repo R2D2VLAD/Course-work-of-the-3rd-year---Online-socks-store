@@ -1,28 +1,24 @@
 package com.example.onlinesocksstore.controllers;
 
 import com.example.onlinesocksstore.model.Color;
-import com.example.onlinesocksstore.model.Size;
-import com.example.onlinesocksstore.model.SocksTWO;
+import com.example.onlinesocksstore.model.InternationalSockSize;
+import com.example.onlinesocksstore.model.Socks;
 import com.example.onlinesocksstore.services.impl.SocksServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/socks")
+@RequiredArgsConstructor
 @Tag(name = "Склад учета носков", description = "CRUD-операции для упраления складом")
 public class SocksController {
-
     private final SocksServiceImpl socksService;
-
-    public SocksController(SocksServiceImpl socksService) {
-        this.socksService = socksService;
-    }
-
     @PostMapping("/POST")
     @Operation(
             summary = "Endpoint для добаления носков на склад")
@@ -47,8 +43,9 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> addSocks(@RequestBody SocksTWO socks) {
-        socksService.addSocks(socks);
+    public ResponseEntity<Void> addSocks(@RequestParam(required = false, name = "Характеристики носков") Socks socks,
+                                         @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
+        socksService.addSocks(socks, numberPairs);
         return ResponseEntity.ok().build();
     }
 
@@ -77,8 +74,9 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> releaseSocks(@RequestBody SocksTWO socks) {
-        socksService.releaseSocks(socks);
+    public ResponseEntity<Void> releaseSocks(@RequestParam(required = false, name = "Характеристики носков") Socks socks,
+                                             @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
+        socksService.releaseSocks(socks, numberPairs);
         return ResponseEntity.ok().build();
     }
 
@@ -106,9 +104,10 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> deleteSocks(@RequestBody SocksTWO socks) {
-        socksService.deleteSocks(socks);
-            return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deleteSocks(@RequestParam(required = false, name = "Характеристики носков") Socks socks,
+                                            @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
+        socksService.deleteSocks(socks, numberPairs);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/GET")
@@ -135,11 +134,12 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Long> getAllSocks(@RequestBody Color color,
-                                            @RequestBody Size size,
-                                            @RequestBody Integer cottonMin,
-                                            @RequestBody Integer cottonMax) {
-        socksService.getAllSocks(color, size, cottonMin, cottonMax);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Integer> getAllSocks(@RequestParam(required = false, name = "Цвет носков") Color color,
+                                               @RequestParam(required = false, name = "Размер носков") InternationalSockSize size,
+                                               @RequestParam(required = false, name = "Минимальное количество хлопка") Integer cottonMin,
+                                               @RequestParam(required = false, name = "Максимальное количество хлопка") Integer cottonMax) {
+        Integer quanlity = socksService.getAllSocks(color, size, cottonMin, cottonMax);
+        return ResponseEntity.ok().body(quanlity);
     }
 }
+

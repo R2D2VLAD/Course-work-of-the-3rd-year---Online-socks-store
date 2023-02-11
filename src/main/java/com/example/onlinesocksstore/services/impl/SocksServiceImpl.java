@@ -1,59 +1,49 @@
 package com.example.onlinesocksstore.services.impl;
 
-import com.example.onlinesocksstore.SocksTwoService;
 import com.example.onlinesocksstore.model.Color;
-import com.example.onlinesocksstore.model.SocksOne;
-import com.example.onlinesocksstore.model.SocksTWO;
-import com.example.onlinesocksstore.model.Size;
-import com.example.onlinesocksstore.services.SocksOneService;
-import lombok.RequiredArgsConstructor;
+import com.example.onlinesocksstore.model.InternationalSockSize;
+import com.example.onlinesocksstore.model.Socks;
+import com.example.onlinesocksstore.services.SocksService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 @Service
-@RequiredArgsConstructor
-public class SocksServiceImpl implements SocksOneService {
-    private static final Map<SocksOne, Integer> socksMap = new HashMap<>();
-
-    private final SocksTwoService socksTwoService;
+public class SocksServiceImpl implements SocksService {
+    private static final Map<Socks, Integer> socksStore = new HashMap<>();
     @Override
-    public void addSocks(SocksTWO socks) {
-        SocksOne socksOne = socksTwoService.addSocks(socks);
-        if (socksMap.containsKey(socksOne)) {
-            socksMap.put(socksOne, socksMap.get(socksOne) + socks.getQuantity());
+    public void addSocks(Socks socks, Integer numberPairs) {
+        if (socksStore.containsKey(socks)) {
+            socksStore.put(socks, socksStore.get(socks) + numberPairs);
         } else {
-            socksMap.put(socksOne, socks.getQuantity());
+            socksStore.put(socks, numberPairs);
         }
     }
 
     @Override
-    public void releaseSocks(SocksTWO socks) {
-        writeAndSaleSocks(socks);
+    public void releaseSocks(Socks socks, Integer numberPairs) {
+        writeAndSaleSocks(socks, numberPairs);
     }
 
     @Override
-    public void deleteSocks(SocksTWO socks) {
-        writeAndSaleSocks(socks);
+    public void deleteSocks(Socks socks, Integer numberPairs) {
+        writeAndSaleSocks(socks, numberPairs);
     }
 
     @Override
-    public long getAllSocks(Color color, Size size, Integer cottonMin, Integer cottonMax) {
-        Stream<Map.Entry<SocksOne, Integer>> entryStream;
-        entryStream = socksMap.entrySet().stream()
+    public Integer getAllSocks(Color color, InternationalSockSize size, Integer cottonMin, Integer cottonMax) {
+        var entryStream = socksStore.entrySet().stream()
                 .filter(color != null ? s -> color.equals(s.getKey().getColor()) : s -> true)
                 .filter(size != null ? s -> size.equals(s.getKey().getSize()) : s -> true)
                 .filter(cottonMin != null ? s -> cottonMin <= s.getKey().getCotton() : s -> true)
                 .filter(cottonMax != null ? s -> cottonMax >= s.getKey().getCotton() : s -> true);
-        return entryStream.count();
+        return Math.toIntExact(entryStream.count());
     }
 
-    private void writeAndSaleSocks(SocksTWO socks) {
-        SocksOne socksOne = socksTwoService.addSocks(socks);
-        int totalNumberSocks = socksMap.getOrDefault(socksOne, 0);
-        if (totalNumberSocks >= socks.getQuantity()) {
-            socksMap.put(socksOne, totalNumberSocks - socks.getQuantity());
+    private void writeAndSaleSocks(Socks socks, Integer numberPairs) {
+        int totalNumberSocks = socksStore.getOrDefault(socks, 0);
+        if (totalNumberSocks >= numberPairs) {
+            socksStore.put(socks, totalNumberSocks - numberPairs);
         } else {
             throw new RuntimeException("Носков нет!");
         }
