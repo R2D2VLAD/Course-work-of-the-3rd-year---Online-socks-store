@@ -1,7 +1,5 @@
 package com.example.onlinesocksstore.controllers;
 
-import com.example.onlinesocksstore.model.Color;
-import com.example.onlinesocksstore.model.InternationalSockSize;
 import com.example.onlinesocksstore.model.Socks;
 import com.example.onlinesocksstore.services.impl.SocksServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -134,8 +132,8 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Integer> getAllSocks(@RequestParam(required = false, name = "Цвет носков") Color color,
-                                               @RequestParam(required = false, name = "Размер носков") InternationalSockSize size,
+    public ResponseEntity<Integer> getAllSocks(@RequestParam(required = false, name = "Цвет носков") String color,
+                                               @RequestParam(required = false, name = "Размер носков") String size,
                                                @RequestParam(required = false, name = "Минимальное количество хлопка") Integer cottonMin,
                                                @RequestParam(required = false, name = "Максимальное количество хлопка") Integer cottonMax) {
         Integer quanlity = socksService.getAllSocks(color, size, cottonMin, cottonMax);

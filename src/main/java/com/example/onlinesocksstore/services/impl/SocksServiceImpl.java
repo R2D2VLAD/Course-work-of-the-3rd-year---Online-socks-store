@@ -1,7 +1,5 @@
 package com.example.onlinesocksstore.services.impl;
 
-import com.example.onlinesocksstore.model.Color;
-import com.example.onlinesocksstore.model.InternationalSockSize;
 import com.example.onlinesocksstore.model.Socks;
 import com.example.onlinesocksstore.services.SocksService;
 import org.springframework.stereotype.Service;
@@ -31,10 +29,10 @@ public class SocksServiceImpl implements SocksService {
     }
 
     @Override
-    public Integer getAllSocks(Color color, InternationalSockSize size, Integer cottonMin, Integer cottonMax) {
+    public Integer getAllSocks(String color, String size, Integer cottonMin, Integer cottonMax) {
         var entryStream = socksStore.entrySet().stream()
-                .filter(color != null ? s -> color.equals(s.getKey().getColor()) : s -> true)
-                .filter(size != null ? s -> size.equals(s.getKey().getSize()) : s -> true)
+                .filter(color != null ? s -> false : s -> true)
+                .filter(size != null ? s -> false : s -> true)
                 .filter(cottonMin != null ? s -> cottonMin <= s.getKey().getCotton() : s -> true)
                 .filter(cottonMax != null ? s -> cottonMax >= s.getKey().getCotton() : s -> true);
         return Math.toIntExact(entryStream.count());
