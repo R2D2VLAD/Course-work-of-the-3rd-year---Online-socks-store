@@ -1,5 +1,7 @@
 package com.example.onlinesocksstore.services;
 
+import com.example.onlinesocksstore.model.Color;
+import com.example.onlinesocksstore.model.SocksSize;
 import com.example.onlinesocksstore.model.Socks;
 
 public interface SocksService {
@@ -9,7 +11,7 @@ public interface SocksService {
 
     void deleteSocks(Socks socks, Integer numberPairs);
 
-    Integer getAllSocks(String color, String size, Integer cottonMin, Integer cottonMax);
+    Integer getAllSocks(Color color, SocksSize size, Integer cottonMin, Integer cottonMax);
 
 }
 
