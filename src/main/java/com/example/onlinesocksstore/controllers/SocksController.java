@@ -48,8 +48,8 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> addSocks(@Valid @RequestBody @RequestParam(required = false, name = "Характеристики носков") Socks socks,
-                                         @Valid @RequestBody @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
+    public ResponseEntity<Void> addSocks(@Valid @RequestBody Socks socks,
+                                         @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
         socksService.addSocks(socks, numberPairs);
         return ResponseEntity.ok().build();
     }
@@ -81,8 +81,8 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> releaseSocks(@Valid @RequestBody @RequestParam(required = false, name = "Характеристики носков") Socks socks,
-                                             @Valid @RequestBody @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
+    public ResponseEntity<Void> releaseSocks(@Valid @RequestBody Socks socks,
+                                             @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
         socksService.releaseSocks(socks, numberPairs);
         return ResponseEntity.ok().build();
     }
@@ -113,8 +113,8 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Void> deleteSocks(@Valid @RequestBody @RequestParam(required = false, name = "Характеристики носков") Socks socks,
-                                            @Valid @RequestBody @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
+    public ResponseEntity<Void> deleteSocks(@Valid @RequestBody Socks socks,
+                                            @RequestParam(required = false, name = "Количество носков") Integer numberPairs) {
         socksService.deleteSocks(socks, numberPairs);
         return ResponseEntity.ok().build();
     }
@@ -143,8 +143,8 @@ public class SocksController {
                     description = "Во время выполнения запроса произошла ошибка на сервере!",
                     content = {
                             @Content(mediaType = "application/json")}),})
-    public ResponseEntity<Integer> getAllSocks(@RequestParam(required = false, name = "Цвет носков") Color color,
-                                               @RequestParam(required = false, name = "Размер носков") SocksSize size,
+    public ResponseEntity<Integer> getAllSocks(@Valid @RequestParam(required = false, name = "Цвет носков") Color color,
+                                               @Valid @RequestParam(required = false, name = "Размер носков") SocksSize size,
                                                @RequestParam(required = false, name = "Минимальное количество хлопка") Integer cottonMin,
                                                @RequestParam(required = false, name = "Максимальное количество хлопка") Integer cottonMax) {
         Integer quanlity = socksService.getAllSocks(color, size, cottonMin, cottonMax);
